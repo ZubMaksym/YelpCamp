@@ -9,23 +9,28 @@
               <p class="card-text"><%=camp.description %></p>
             </div>
             <ul class="list-group list-group-flush">
-              <li class="list-group-item"><h6 class="d-inline">Location:</h6> <%=camp.location %></li>
-              <li class="list-group-item"><h6 class="d-inline">Price:</h6> <%= camp.price%>$/night</li>
+              <li class="list-group-item"> <h6 class="d-inline">Location:</h6> <%=camp.location %></li>
+              <li class="list-group-item"> <h6 class="d-inline">Added by:</h6> <%=camp.author.username%> </li>
+              <li class="list-group-item"> <h6 class="d-inline">Price:</h6> <%=camp.price%>$/night</li>
             </ul>
-            <div class="card-body">
-                <footer>
-                    <a class="btn btn-warning" href="/campgrounds/<%=camp._id %>/edit">Edit</a>
-                    <form class="d-inline" action="/campgrounds/<%=camp._id%>?_method=DELETE" method="POST">
-                        <button class="btn btn-danger">Delete</button>
-                    </form>
-                </footer>
-            </div>
+            <% if( currentUser && camp.author.equals(currentUser._id)) { %>
+                <div class="card-body">
+                    <footer>
+                        <a class="btn btn-warning" href="/campgrounds/<%=camp._id %>/edit">Edit</a>
+                        <form class="d-inline" action="/campgrounds/<%=camp._id%>?_method=DELETE" method="POST">
+                            <button class="btn btn-danger">Delete</button>
+                        </form>
+                    </footer>
+                </div>
+            <% } %>
+
             <div class="card-footer text-muted">
                 2 days ago
             </div>
           </div>
     </div>
     <div class="col-6">
+        <% if(currentUser) { %>
         <h2>Lave a review</h2>
           <form action="/campgrounds/<%=camp._id%>/reviews" method="POST" class="mb-3 validated-form" novalidate>
             <div class="mb">
@@ -44,14 +49,18 @@
             </div>
             <button class="btn btn-success">Submit</button>
           </form>
+        <% } %>
         <% for (let review of camp.reviews) {%>
             <div class="card mb-3">
                 <div class="mb-3 card-body">
-                    <h2 class="card-title">Raiting: <%= review.raiting %></h2>
+                    <h5 class="card-title">Raiting: <%= review.raiting %></h5>
+                    <h6 class="card-subtitle mb-2 text-muted">By <%= review.author.username %></h6>
                     <p class="card-text">Rewiew: <%= review.body %></p>
+                    <% if( currentUser && review.author.equals(currentUser._id)) { %>
                     <form action="/campgrounds/<%=camp._id%>/reviews/<%=review._id%>?_method=DELETE" method="POST">
                         <button class="btn btn-sm btn-danger">Delete</button>
                     </form>
+                    <% } %>
                 </div>
             </div>
         <% } %>

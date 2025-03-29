@@ -24,6 +24,7 @@ const seedDB = async () => {
             image: `https://picsum.photos/400?random=${Math.random()}`,
             description: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Iste impedit nisi accusantium? Error non quam porro, a voluptatum, sed autem excepturi, fugiat sequi dicta magni cum eaque dignissimos temporibus consectetur?",
             price: price,
+            author: '67e2bb613b0e1613f36f97c4'
         })
         await camp.save();
     }
